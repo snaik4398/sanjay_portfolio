@@ -1,0 +1,14 @@
+# Sanjay Portfolio
+
+Sitemap: https://www.sanjaydev.online/sitemap.xml
+
+User-agent: *
+Allow: /
+
+# Disallow admin or private pages (if any)
+Disallow: /api/
+Disallow: /_next/
+
+# Crawl-delay
+Crawl-delay: 0
+

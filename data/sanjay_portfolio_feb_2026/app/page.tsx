@@ -1,0 +1,19 @@
+import Hero from "@/components/sections/hero";
+import Skills from "@/components/sections/skills";
+import Experience from "@/components/sections/experience";
+import Projects from "@/components/sections/projects";
+import EducationCertifications from "@/components/sections/education";
+import Contact from "@/components/sections/contact";
+
+export default function Home() {
+  return (
+    <>
+      <Hero />
+      <Skills />
+      <Experience />
+      <Projects />
+      <EducationCertifications />
+      <Contact />
+    </>
+  );
+}
