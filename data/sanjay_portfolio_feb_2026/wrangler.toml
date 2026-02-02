@@ -4,8 +4,7 @@ pages_build_output_dir = "out"
 
 [build]
 command = "npm run build"
-directory = "out"
+cwd = "data/sanjay_portfolio_feb_2026"
 
 [build.environment]
 NODE_VERSION = "18"
-
