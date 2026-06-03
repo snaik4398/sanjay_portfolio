@@ -7,16 +7,17 @@ export interface Props {
 }
 
 const {
-  title = 'Sanjay Naik — Senior Software Engineer',
-  description = 'Sanjay Naik — Java / Spring Boot backend & full-stack developer. Portfolio of skills, experience, education and projects.',
+  title = 'Sanjay Naik - Senior Software Engineer',
+  description = 'Strategic Senior Software Engineer with 3.5+ years of experience architecting high-concurrency microservices and integrating Generative AI to optimize the SDLC.',
 } = Astro.props;
 
 const site = Astro.site ?? new URL('https://sanjaydev.online');
 const canonical = new URL(Astro.url.pathname, site).href;
+const keywords = 'Sanjay Naik, Software Engineer, Backend Developer, GenAI, Microservices, Java, Spring Boot, AI Engineer';
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang="en" class="dark">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -25,15 +26,16 @@ const canonical = new URL(Astro.url.pathname, site).href;
 
     <title>{title}</title>
     <meta name="description" content={description} />
+    <meta name="keywords" content={keywords} />
     <link rel="canonical" href={canonical} />
-    <meta name="theme-color" content="#854CE6" />
+    <meta name="theme-color" content="#6366f1" />
 
     <!-- Open Graph -->
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:type" content="website" />
     <meta property="og:url" content={canonical} />
-    <meta property="og:image" content={new URL('/images/hero.png', site).href} />
+    <meta property="og:site_name" content="Sanjay's Portfolio" />
 
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image" />
@@ -49,8 +51,23 @@ const canonical = new URL(Astro.url.pathname, site).href;
       async
       src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9253827851265014"
       crossorigin="anonymous"></script>
+
+    <!-- Apply theme before paint to avoid flash -->
+    <script is:inline>
+      (function () {
+        try {
+          const saved = localStorage.getItem('theme');
+          const sysDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+          const isDark = saved === 'dark' || saved === null || (saved === 'system' && sysDark);
+          const root = document.documentElement;
+          root.classList.remove('light', 'dark');
+          root.classList.add(isDark ? 'dark' : 'light');
+          root.setAttribute('data-theme', isDark ? 'dark' : 'light');
+        } catch (e) {}
+      })();
+    </script>
   </head>
-  <body class="font-sans antialiased text-ink selection:bg-brand selection:text-white">
+  <body class="font-sans antialiased">
     <slot />
   </body>
 </html>

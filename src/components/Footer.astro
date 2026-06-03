@@ -1,19 +1,95 @@
 ---
-import Social from './Social.astro';
+import { bio } from '../data/data.ts';
+import Icon from './Icon.astro';
 
-const links = ['about', 'skills', 'experience', 'education', 'projects'];
 const year = new Date().getFullYear();
+
+const quickLinks = [
+  { label: 'Skills', href: '#skills' },
+  { label: 'Experience', href: '#experience' },
+  { label: 'Projects', href: '#projects' },
+  { label: 'Contact', href: '#contact' },
+];
+
+const mailHref = `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(bio.email)}`;
 ---
 
-<footer class="border-t border-white/5 py-12">
-  <div class="mx-auto flex max-w-5xl flex-col items-center gap-5 px-6 text-center">
-    <h2 class="text-xl font-semibold text-brand">Sanjay Naik</h2>
-    <nav class="flex flex-wrap justify-center gap-x-8 gap-y-3 text-ink/80">
-      {links.map((l) => (
-        <a href={`#${l}`} class="capitalize transition-colors hover:text-brand">{l}</a>
-      ))}
-    </nav>
-    <Social />
-    <p class="mt-2 text-sm text-muted">&copy; {year} Sanjay Naik. All rights reserved.</p>
+<footer class="bg-gray-50 dark:bg-gray-900 border-t border-gray-200 dark:border-gray-800">
+  <div class="max-w-7xl mx-auto px-6 py-12">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+      {/* Brand */}
+      <div>
+        <h3 class="text-2xl font-bold text-primary mb-4">
+          Sanjay Naik
+        </h3>
+        <p class="text-gray-600 dark:text-gray-400 text-sm leading-relaxed">
+          Senior Software Engineer specializing in backend development, microservices architecture, and AI/ML integration.
+        </p>
+      </div>
+
+      {/* Quick Links */}
+      <div>
+        <h4 class="font-semibold text-gray-900 dark:text-white mb-4">Quick Links</h4>
+        <div class="flex flex-col gap-2">
+          {quickLinks.map((link) => (
+            <a
+              href={link.href}
+              class="text-gray-600 dark:text-gray-400 hover:text-primary dark:hover:text-primary transition-colors text-sm"
+            >
+              {link.label}
+            </a>
+          ))}
+        </div>
+      </div>
+
+      {/* Connect */}
+      <div>
+        <h4 class="font-semibold text-gray-900 dark:text-white mb-4">Connect</h4>
+        <div class="flex gap-4 mb-4">
+          <a
+            href={bio.social.github}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="p-2 rounded-lg bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 hover:border-primary dark:hover:border-primary text-gray-700 dark:text-gray-300 hover:text-primary dark:hover:text-primary transition-all"
+            aria-label="GitHub"
+          >
+            <Icon name="github" class="w-5 h-5" />
+          </a>
+          <a
+            href={bio.social.linkedin}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="p-2 rounded-lg bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 hover:border-primary dark:hover:border-primary text-gray-700 dark:text-gray-300 hover:text-primary dark:hover:text-primary transition-all"
+            aria-label="LinkedIn"
+          >
+            <Icon name="linkedin" class="w-5 h-5" />
+          </a>
+          <a
+            href={mailHref}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="p-2 rounded-lg bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 hover:border-primary dark:hover:border-primary text-gray-700 dark:text-gray-300 hover:text-primary dark:hover:text-primary transition-all"
+            aria-label="Email"
+          >
+            <Icon name="mail" class="w-5 h-5" />
+          </a>
+        </div>
+        <p class="text-sm text-gray-600 dark:text-gray-400">
+          📍 {bio.location}
+        </p>
+      </div>
+    </div>
+
+    {/* Bottom Bar */}
+    <div class="pt-8 border-t border-gray-200 dark:border-gray-800">
+      <div class="flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-gray-600 dark:text-gray-400">
+        <p>
+          © {year} Sanjay Naik. All rights reserved.
+        </p>
+        <p class="flex items-center gap-2">
+          Built with <Icon name="heart" class="w-4 h-4 text-red-500 fill-red-500" /> using Astro & Tailwind CSS
+        </p>
+      </div>
+    </div>
   </div>
 </footer>

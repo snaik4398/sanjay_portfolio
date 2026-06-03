@@ -1,77 +1,139 @@
 ---
-import { Bio } from '../data/constants.js';
-import Social from './Social.astro';
+import { bio } from '../data/data.ts';
+import Icon from './Icon.astro';
 ---
 
-<section id="about" class="relative overflow-hidden">
-  <!-- gradient blobs -->
-  <div class="pointer-events-none absolute inset-0 -z-10">
-    <div class="absolute -top-24 -left-24 h-96 w-96 rounded-full bg-brand/20 blur-[120px]"></div>
-    <div class="absolute bottom-0 right-0 h-96 w-96 rounded-full bg-blue-600/15 blur-[120px]"></div>
-  </div>
-
-  <div class="mx-auto grid max-w-6xl items-center gap-12 px-6 py-20 md:min-h-[88vh] md:grid-cols-2 md:py-0">
-    <!-- Left -->
-    <div class="order-2 md:order-1">
-      <h1 class="text-4xl font-extrabold leading-tight tracking-tight sm:text-5xl">
-        Hi, I am<br />
-        <span class="bg-gradient-to-r from-brand to-brand-2 bg-clip-text text-transparent">{Bio.name}</span>
-      </h1>
-
-      <p class="mt-4 text-xl font-semibold text-ink/90 sm:text-2xl">
-        I am a <span id="typewriter" class="text-brand"></span><span class="caret">&nbsp;</span>
-      </p>
-
-      <p class="mt-6 max-w-xl leading-relaxed text-muted">{Bio.description}</p>
-
-      <div class="mt-8 flex flex-wrap items-center gap-5">
-        <a
-          href={Bio.resume}
-          target="_blank"
-          rel="noopener noreferrer"
-          class="rounded-xl bg-gradient-to-r from-brand to-brand-2 px-7 py-3 font-semibold text-white shadow-lg shadow-brand/30 transition-transform hover:scale-105"
-        >
-          Check Resume
-        </a>
-        <Social />
-      </div>
+<section
+  id="home"
+  class="min-h-screen flex items-center justify-center px-6 pt-20 bg-white dark:bg-gray-900"
+>
+  <div class="max-w-5xl mx-auto text-center">
+    {/* Greeting */}
+    <div class="inline-block px-4 py-2 rounded-full bg-primary/10 text-primary text-sm font-semibold mb-8 animate-fade-in">
+      👋 Hi there! I'm
     </div>
 
-    <!-- Right: avatar -->
-    <div class="order-1 flex justify-center md:order-2">
-      <div class="relative">
-        <div class="absolute inset-0 -z-10 rounded-full bg-gradient-to-tr from-brand to-brand-2 blur-2xl opacity-40"></div>
-        <img
-          src="/images/hero.png"
-          alt="Sanjay Naik"
-          loading="eager"
-          class="h-60 w-60 rounded-full border-4 border-brand/40 object-cover shadow-2xl shadow-brand/20 sm:h-72 sm:w-72"
-        />
-      </div>
+    {/* Name */}
+    <h1 class="text-5xl md:text-7xl font-bold text-gray-900 dark:text-white mb-6 animate-slide-up">
+      {bio.name}
+    </h1>
+
+    {/* Typing Animation */}
+    <div class="text-2xl md:text-4xl font-semibold mb-8 h-20 text-primary">
+      <span id="hero-typewriter"></span><span class="hero-caret">|</span>
+    </div>
+
+    {/* Description */}
+    <p class="text-lg md:text-xl text-gray-600 dark:text-gray-400 max-w-3xl mx-auto mb-8 leading-relaxed animate-fade-in">
+      {bio.tagline}
+    </p>
+
+    {/* Location */}
+    <div class="flex items-center justify-center gap-2 text-gray-600 dark:text-gray-400 mb-8">
+      <Icon name="map-pin" class="w-5 h-5 text-primary" />
+      <span>{bio.location}</span>
+    </div>
+
+    {/* Social Links */}
+    <div class="flex justify-center gap-4 mb-8 flex-wrap">
+      <a
+        href={bio.social.github}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="flex items-center gap-2 px-6 py-3 rounded-lg bg-white dark:bg-gray-800 border-2 border-gray-300 dark:border-gray-700 text-gray-700 dark:text-gray-300 hover:border-primary dark:hover:border-primary hover:text-primary dark:hover:text-primary transition-all font-medium"
+        aria-label="GitHub"
+      >
+        <Icon name="github" class="w-5 h-5" />
+        <span>GitHub</span>
+      </a>
+      <a
+        href={bio.social.linkedin}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="flex items-center gap-2 px-6 py-3 rounded-lg bg-white dark:bg-gray-800 border-2 border-gray-300 dark:border-gray-700 text-gray-700 dark:text-gray-300 hover:border-primary dark:hover:border-primary hover:text-primary dark:hover:text-primary transition-all font-medium"
+        aria-label="LinkedIn"
+      >
+        <Icon name="linkedin" class="w-5 h-5" />
+        <span>LinkedIn</span>
+      </a>
+      <a
+        href={`https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(bio.email)}`}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="flex items-center gap-2 px-6 py-3 rounded-lg bg-white dark:bg-gray-800 border-2 border-gray-300 dark:border-gray-700 text-gray-700 dark:text-gray-300 hover:border-primary dark:hover:border-primary hover:text-primary dark:hover:text-primary transition-all font-medium"
+        aria-label="Email"
+      >
+        <Icon name="mail" class="w-5 h-5" />
+        <span>Email</span>
+      </a>
+    </div>
+
+    {/* CTA Button */}
+    <div class="flex justify-center gap-4">
+      <a
+        href={bio.resumeLink}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="inline-flex items-center gap-2 px-8 py-4 bg-primary hover:bg-primary-dark text-white rounded-lg font-semibold transition-all hover:scale-105 shadow-lg"
+      >
+        <Icon name="download" class="w-5 h-5" />
+        Download Resume
+      </a>
+      <a
+        href="#contact"
+        class="inline-flex items-center gap-2 px-8 py-4 bg-white dark:bg-gray-800 border-2 border-primary text-primary rounded-lg font-semibold transition-all hover:scale-105 hover:bg-primary hover:text-white"
+      >
+        Let's Talk
+      </a>
     </div>
   </div>
 </section>
 
-<script define:vars={{ roles: Bio.roles }}>
-  const el = document.getElementById('typewriter');
-  if (el && roles?.length) {
-    let r = 0,
-      c = 0,
-      deleting = false;
-    const tick = () => {
-      const word = roles[r % roles.length];
-      el.textContent = deleting ? word.slice(0, c--) : word.slice(0, c++);
-      let delay = deleting ? 45 : 90;
-      if (!deleting && c === word.length + 1) {
-        deleting = true;
-        delay = 1400;
-      } else if (deleting && c === 0) {
-        deleting = false;
-        r++;
-        delay = 300;
+<style>
+  .hero-caret {
+    animation: hero-blink 1s step-end infinite;
+  }
+  @keyframes hero-blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+  }
+</style>
+
+<script define:vars={{ roles: bio.roles }}>
+  const el = document.getElementById('hero-typewriter');
+  if (el && Array.isArray(roles) && roles.length > 0) {
+    const typeSpeed = 50;
+    const deleteSpeed = 30;
+    const pauseAfterType = 2000;
+    const pauseAfterDelete = 400;
+    let roleIndex = 0;
+    let charIndex = 0;
+    let deleting = false;
+
+    function tick() {
+      const current = roles[roleIndex];
+      if (!deleting) {
+        charIndex++;
+        el.textContent = current.slice(0, charIndex);
+        if (charIndex === current.length) {
+          deleting = true;
+          setTimeout(tick, pauseAfterType);
+          return;
+        }
+        setTimeout(tick, typeSpeed);
+      } else {
+        charIndex--;
+        el.textContent = current.slice(0, charIndex);
+        if (charIndex === 0) {
+          deleting = false;
+          roleIndex = (roleIndex + 1) % roles.length;
+          setTimeout(tick, pauseAfterDelete);
+          return;
+        }
+        setTimeout(tick, deleteSpeed);
       }
-      setTimeout(tick, delay);
-    };
+    }
+
     tick();
   }
 </script>

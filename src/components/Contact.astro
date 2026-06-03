@@ -1,75 +1,172 @@
 ---
-// EmailJS keys are public client-side identifiers (safe to expose).
-const SERVICE_ID = 'service_83dj4bc';
-const TEMPLATE_ID = 'template_bblxtyb';
-const PUBLIC_KEY = 'ZUCqTw4buBKYEtwUp';
+import { bio } from '../data/data.ts';
+import Icon from './Icon.astro';
 ---
 
-<section id="contact" class="py-20">
-  <div class="mx-auto flex max-w-6xl flex-col items-center px-6">
-    <h2 class="text-center text-4xl font-bold">Contact</h2>
-    <p class="mt-3 max-w-xl text-center text-muted">
-      Feel free to reach out to me for any questions or opportunities!
-    </p>
+<section id="contact" class="py-20 px-6 bg-gray-50 dark:bg-gray-900">
+  <div class="max-w-6xl mx-auto">
+    {/* Section Header */}
+    <div class="text-center mb-16">
+      <h2 class="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4">
+        Get In Touch
+      </h2>
+      <p class="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
+        Let's discuss how we can work together. I'm always open to new opportunities and collaborations.
+      </p>
+    </div>
 
-    <form
-      id="contact-form"
-      class="mt-8 flex w-full max-w-xl flex-col gap-3 rounded-2xl border border-white/10 bg-card p-8 shadow-[0_4px_24px_rgba(23,92,230,0.15)]"
-    >
-      <h3 class="mb-1 text-xl font-semibold text-ink">Email Me 🚀</h3>
-      <input required type="email" name="from_email" placeholder="Your Email"
-        class="rounded-xl border border-white/15 bg-transparent px-4 py-3 text-ink outline-none focus:border-brand" />
-      <input required type="text" name="from_name" placeholder="Your Name"
-        class="rounded-xl border border-white/15 bg-transparent px-4 py-3 text-ink outline-none focus:border-brand" />
-      <input required type="text" name="subject" placeholder="Subject"
-        class="rounded-xl border border-white/15 bg-transparent px-4 py-3 text-ink outline-none focus:border-brand" />
-      <textarea required name="message" rows="4" placeholder="Message"
-        class="rounded-xl border border-white/15 bg-transparent px-4 py-3 text-ink outline-none focus:border-brand"></textarea>
-      <button
-        id="contact-submit"
-        type="submit"
-        class="mt-1 rounded-xl bg-gradient-to-r from-brand to-brand-2 px-4 py-3 font-semibold text-white transition-transform hover:scale-[1.02] disabled:cursor-not-allowed disabled:opacity-60"
-      >
-        Send
-      </button>
-      <p id="contact-status" class="text-center text-sm"></p>
-    </form>
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+      {/* Contact Information */}
+      <div class="space-y-8">
+        <div>
+          <h3 class="text-2xl font-bold text-gray-900 dark:text-white mb-6">
+            Contact Information
+          </h3>
+          <div class="space-y-6">
+            <div class="flex items-start gap-4">
+              <div class="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0">
+                <Icon name="mail" class="w-6 h-6 text-primary" />
+              </div>
+              <div>
+                <h4 class="font-semibold text-gray-900 dark:text-white mb-1">Email</h4>
+                <a
+                  href={`https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(bio.email)}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="text-gray-600 dark:text-gray-400 hover:text-primary transition-colors"
+                >
+                  {bio.email}
+                </a>
+              </div>
+            </div>
+
+            <div class="flex items-start gap-4">
+              <div class="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0">
+                <Icon name="map-pin" class="w-6 h-6 text-primary" />
+              </div>
+              <div>
+                <h4 class="font-semibold text-gray-900 dark:text-white mb-1">Location</h4>
+                <p class="text-gray-600 dark:text-gray-400">{bio.location}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Social Links */}
+        <div>
+          <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-4">
+            Connect With Me
+          </h3>
+          <div class="flex gap-4">
+            <a
+              href={bio.social.linkedin}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="w-12 h-12 rounded-lg bg-white dark:bg-gray-800 border-2 border-gray-300 dark:border-gray-700 hover:border-primary dark:hover:border-primary text-gray-700 dark:text-gray-300 hover:text-primary dark:hover:text-primary flex items-center justify-center transition-all"
+              aria-label="LinkedIn"
+            >
+              <Icon name="linkedin" class="w-6 h-6" />
+            </a>
+            <a
+              href={bio.social.github}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="w-12 h-12 rounded-lg bg-white dark:bg-gray-800 border-2 border-gray-300 dark:border-gray-700 hover:border-primary dark:hover:border-primary text-gray-700 dark:text-gray-300 hover:text-primary dark:hover:text-primary flex items-center justify-center transition-all"
+              aria-label="GitHub"
+            >
+              <Icon name="github" class="w-6 h-6" />
+            </a>
+          </div>
+        </div>
+      </div>
+
+      {/* Contact Form */}
+      <div class="bg-white dark:bg-gray-800 rounded-2xl p-8 border border-gray-200 dark:border-gray-700 shadow-lg">
+        <form id="contact-form" data-email={bio.email} class="space-y-6">
+          <div>
+            <label for="name" class="block text-sm font-semibold text-gray-900 dark:text-white mb-2">
+              Name
+            </label>
+            <input
+              type="text"
+              id="name"
+              name="name"
+              required
+              class="w-full px-4 py-3 rounded-lg bg-gray-50 dark:bg-gray-900 border border-gray-300 dark:border-gray-700 text-gray-900 dark:text-white focus:outline-none focus:border-primary transition-colors"
+              placeholder="Your Name"
+            />
+          </div>
+
+          <div>
+            <label for="email" class="block text-sm font-semibold text-gray-900 dark:text-white mb-2">
+              Email
+            </label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              required
+              class="w-full px-4 py-3 rounded-lg bg-gray-50 dark:bg-gray-900 border border-gray-300 dark:border-gray-700 text-gray-900 dark:text-white focus:outline-none focus:border-primary transition-colors"
+              placeholder="your.email@example.com"
+            />
+          </div>
+
+          <div>
+            <label for="subject" class="block text-sm font-semibold text-gray-900 dark:text-white mb-2">
+              Subject
+            </label>
+            <input
+              type="text"
+              id="subject"
+              name="subject"
+              required
+              class="w-full px-4 py-3 rounded-lg bg-gray-50 dark:bg-gray-900 border border-gray-300 dark:border-gray-700 text-gray-900 dark:text-white focus:outline-none focus:border-primary transition-colors"
+              placeholder="What's this about?"
+            />
+          </div>
+
+          <div>
+            <label for="message" class="block text-sm font-semibold text-gray-900 dark:text-white mb-2">
+              Message
+            </label>
+            <textarea
+              id="message"
+              name="message"
+              required
+              rows={5}
+              class="w-full px-4 py-3 rounded-lg bg-gray-50 dark:bg-gray-900 border border-gray-300 dark:border-gray-700 text-gray-900 dark:text-white focus:outline-none focus:border-primary transition-colors resize-none"
+              placeholder="Your message..."
+            ></textarea>
+          </div>
+
+          <button
+            type="submit"
+            class="w-full flex items-center justify-center gap-2 px-8 py-4 bg-primary hover:bg-primary-dark text-white rounded-lg font-semibold transition-all hover:scale-[1.02] shadow-lg"
+          >
+            <Icon name="send" class="w-5 h-5" />
+            Send Message
+          </button>
+        </form>
+      </div>
+    </div>
   </div>
 </section>
 
-<script is:inline src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
-<script is:inline define:vars={{ SERVICE_ID, TEMPLATE_ID, PUBLIC_KEY }}>
-  (function () {
-    function ready() {
-      if (!window.emailjs) return setTimeout(ready, 200);
-      window.emailjs.init({ publicKey: PUBLIC_KEY });
-
-      const form = document.getElementById('contact-form');
-      const btn = document.getElementById('contact-submit');
-      const status = document.getElementById('contact-status');
-
-      // brief anti-spam delay (matches original behaviour)
-      if (btn) { btn.disabled = true; setTimeout(() => (btn.disabled = false), 3000); }
-
-      form?.addEventListener('submit', (e) => {
-        e.preventDefault();
-        if (btn) { btn.disabled = true; btn.textContent = 'Sending…'; }
-        window.emailjs
-          .sendForm(SERVICE_ID, TEMPLATE_ID, form)
-          .then(() => {
-            status.textContent = 'Email sent successfully! ✅';
-            status.style.color = '#4ade80';
-            form.reset();
-          })
-          .catch(() => {
-            status.textContent = 'Something went wrong. Please try again later.';
-            status.style.color = '#f87171';
-          })
-          .finally(() => {
-            if (btn) { btn.disabled = false; btn.textContent = 'Send'; }
-          });
-      });
-    }
-    ready();
-  })();
+<script>
+  const form = document.getElementById('contact-form') as HTMLFormElement | null;
+  if (form) {
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const to = form.dataset.email ?? '';
+      const name = (form.elements.namedItem('name') as HTMLInputElement)?.value ?? '';
+      const email = (form.elements.namedItem('email') as HTMLInputElement)?.value ?? '';
+      const subject = (form.elements.namedItem('subject') as HTMLInputElement)?.value ?? '';
+      const message = (form.elements.namedItem('message') as HTMLTextAreaElement)?.value ?? '';
+      const body = `Name: ${name}\nEmail: ${email}\n\nMessage:\n${message}`;
+      const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(
+        to
+      )}&su=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+      window.open(gmailUrl, '_blank', 'noopener,noreferrer');
+    });
+  }
 </script>

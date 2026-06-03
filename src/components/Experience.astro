@@ -1,43 +1,85 @@
 ---
-import { experiences } from '../data/constants.js';
+import { experience } from '../data/data.ts';
+import Icon from './Icon.astro';
 ---
 
-<section id="experience" class="py-20">
-  <div class="mx-auto max-w-4xl px-6">
-    <h2 class="text-center text-4xl font-bold">Experience</h2>
-    <p class="mx-auto mt-3 max-w-2xl text-center text-muted">
-      My work experience as a software engineer across different companies and projects.
-    </p>
+<section id="experience" class="py-20 px-6 bg-white dark:bg-gray-900">
+  <div class="max-w-7xl mx-auto">
+    {/* Section Header */}
+    <div class="text-center mb-16">
+      <h2 class="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4">
+        Work Experience
+      </h2>
+      <p class="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
+        Building scalable healthcare platforms and AI-driven solutions at enterprise scale
+      </p>
+    </div>
 
-    <ol class="relative mt-12 border-l border-brand/40 pl-6 sm:pl-8">
-      {experiences.map((exp) => {
-        const lines = exp.desc.split(/\r?\n/).map((l) => l.trim()).filter(Boolean);
-        return (
-          <li class="relative mb-8">
-            <span class="absolute -left-[31px] top-3 h-3.5 w-3.5 rounded-full border-2 border-brand bg-surface sm:-left-[39px]"></span>
-            <div class="rounded-xl border border-brand/40 bg-card p-5 shadow-[0_4px_24px_rgba(133,76,230,0.12)] transition-transform hover:-translate-y-1">
-              <div class="flex gap-4">
-                <img src={exp.img} alt={exp.company} loading="lazy" class="h-12 w-12 flex-shrink-0 rounded-lg bg-white/90 object-contain p-1" />
-                <div>
-                  <h3 class="font-semibold text-ink">{exp.role}</h3>
-                  <p class="text-sm text-muted">{exp.company}</p>
-                  <p class="text-xs text-muted/80">{exp.date}</p>
-                </div>
-              </div>
-              <div class="mt-4 space-y-1.5 text-sm leading-relaxed text-ink/75">
-                {lines.map((line) => <p>{line}</p>)}
-              </div>
-              {exp.skills?.length ? (
-                <div class="mt-4 flex flex-wrap gap-2">
-                  {exp.skills.map((s) => (
-                    <span class="rounded-md bg-brand/10 px-2.5 py-1 text-xs text-ink/70">{s}</span>
-                  ))}
-                </div>
-              ) : null}
+    {/* Experience Items - Full Width */}
+    <div class="space-y-8">
+      {experience.map((exp) => (
+        <div
+          class="bg-gray-50 dark:bg-gray-800 rounded-2xl p-6 md:p-8 shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-200 dark:border-gray-700 hover:border-primary/50 dark:hover:border-primary/50"
+        >
+          {/* Header */}
+          <div class="flex items-start gap-4 mb-6 pb-6 border-b border-gray-200 dark:border-gray-700">
+            <div class="flex-shrink-0 w-16 h-16 relative">
+              <img
+                src={exp.logo}
+                alt={`${exp.company} logo`}
+                width={64}
+                height={64}
+                class="rounded-lg object-contain"
+              />
             </div>
-          </li>
-        );
-      })}
-    </ol>
+            <div class="flex-1">
+              <h3 class="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-2">
+                {exp.role}
+              </h3>
+              <div class="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 text-gray-600 dark:text-gray-400">
+                <div class="flex items-center gap-2">
+                  <Icon name="briefcase" class="w-5 h-5 text-primary" />
+                  <span class="font-medium">{exp.company}</span>
+                </div>
+                <div class="flex items-center gap-2">
+                  <Icon name="map-pin" class="w-5 h-5 text-primary" />
+                  <span>{exp.location}</span>
+                </div>
+                <div class="flex items-center gap-2">
+                  <Icon name="calendar" class="w-5 h-5 text-primary" />
+                  <span class="font-semibold">{exp.period}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* All Achievements */}
+          <div class="space-y-3 mb-6">
+            <h4 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+              Key Achievements & Responsibilities:
+            </h4>
+            {exp.achievements.map((achievement) => (
+              <div class="flex items-start gap-3">
+                <Icon name="check-circle" class="w-5 h-5 text-primary flex-shrink-0 mt-0.5" />
+                <p class="text-base text-gray-700 dark:text-gray-300 leading-relaxed">
+                  {achievement}
+                </p>
+              </div>
+            ))}
+          </div>
+
+          {/* Tags */}
+          <div class="flex flex-wrap gap-2 pt-4 border-t border-gray-200 dark:border-gray-700">
+            {exp.tags.map((tag) => (
+              <span
+                class="px-3 py-1.5 text-sm font-medium bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg border border-gray-300 dark:border-gray-600 hover:border-primary dark:hover:border-primary transition-colors"
+              >
+                {tag}
+              </span>
+            ))}
+          </div>
+        </div>
+      ))}
+    </div>
   </div>
 </section>
