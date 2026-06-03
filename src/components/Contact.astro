@@ -1,0 +1,75 @@
+---
+// EmailJS keys are public client-side identifiers (safe to expose).
+const SERVICE_ID = 'service_83dj4bc';
+const TEMPLATE_ID = 'template_bblxtyb';
+const PUBLIC_KEY = 'ZUCqTw4buBKYEtwUp';
+---
+
+<section id="contact" class="py-20">
+  <div class="mx-auto flex max-w-6xl flex-col items-center px-6">
+    <h2 class="text-center text-4xl font-bold">Contact</h2>
+    <p class="mt-3 max-w-xl text-center text-muted">
+      Feel free to reach out to me for any questions or opportunities!
+    </p>
+
+    <form
+      id="contact-form"
+      class="mt-8 flex w-full max-w-xl flex-col gap-3 rounded-2xl border border-white/10 bg-card p-8 shadow-[0_4px_24px_rgba(23,92,230,0.15)]"
+    >
+      <h3 class="mb-1 text-xl font-semibold text-ink">Email Me 🚀</h3>
+      <input required type="email" name="from_email" placeholder="Your Email"
+        class="rounded-xl border border-white/15 bg-transparent px-4 py-3 text-ink outline-none focus:border-brand" />
+      <input required type="text" name="from_name" placeholder="Your Name"
+        class="rounded-xl border border-white/15 bg-transparent px-4 py-3 text-ink outline-none focus:border-brand" />
+      <input required type="text" name="subject" placeholder="Subject"
+        class="rounded-xl border border-white/15 bg-transparent px-4 py-3 text-ink outline-none focus:border-brand" />
+      <textarea required name="message" rows="4" placeholder="Message"
+        class="rounded-xl border border-white/15 bg-transparent px-4 py-3 text-ink outline-none focus:border-brand"></textarea>
+      <button
+        id="contact-submit"
+        type="submit"
+        class="mt-1 rounded-xl bg-gradient-to-r from-brand to-brand-2 px-4 py-3 font-semibold text-white transition-transform hover:scale-[1.02] disabled:cursor-not-allowed disabled:opacity-60"
+      >
+        Send
+      </button>
+      <p id="contact-status" class="text-center text-sm"></p>
+    </form>
+  </div>
+</section>
+
+<script is:inline src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<script is:inline define:vars={{ SERVICE_ID, TEMPLATE_ID, PUBLIC_KEY }}>
+  (function () {
+    function ready() {
+      if (!window.emailjs) return setTimeout(ready, 200);
+      window.emailjs.init({ publicKey: PUBLIC_KEY });
+
+      const form = document.getElementById('contact-form');
+      const btn = document.getElementById('contact-submit');
+      const status = document.getElementById('contact-status');
+
+      // brief anti-spam delay (matches original behaviour)
+      if (btn) { btn.disabled = true; setTimeout(() => (btn.disabled = false), 3000); }
+
+      form?.addEventListener('submit', (e) => {
+        e.preventDefault();
+        if (btn) { btn.disabled = true; btn.textContent = 'Sending…'; }
+        window.emailjs
+          .sendForm(SERVICE_ID, TEMPLATE_ID, form)
+          .then(() => {
+            status.textContent = 'Email sent successfully! ✅';
+            status.style.color = '#4ade80';
+            form.reset();
+          })
+          .catch(() => {
+            status.textContent = 'Something went wrong. Please try again later.';
+            status.style.color = '#f87171';
+          })
+          .finally(() => {
+            if (btn) { btn.disabled = false; btn.textContent = 'Send'; }
+          });
+      });
+    }
+    ready();
+  })();
+</script>

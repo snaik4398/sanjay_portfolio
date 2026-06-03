@@ -1,0 +1,61 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Poppins", ui-sans-serif, system-ui, sans-serif;
+
+  /* Portfolio dark palette (ported from the original styled-components theme) */
+  --color-surface: #1C1C27;     /* page background */
+  --color-surface-2: #1C1E27;
+  --color-card: #171721;        /* card background */
+  --color-card-light: #191924;  /* nav / raised surfaces */
+  --color-brand: #854CE6;       /* primary purple */
+  --color-brand-2: #be1adb;     /* magenta accent */
+  --color-ink: #F2F3F4;         /* primary text */
+  --color-muted: #b1b2b3;       /* secondary text */
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--color-surface);
+  color: var(--color-ink);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* Offset anchored sections for the sticky navbar */
+section[id],
+div[id="about"] {
+  scroll-margin-top: 90px;
+}
+
+/* Thin custom scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-surface);
+}
+::-webkit-scrollbar-thumb {
+  background: #2a2a3a;
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-brand);
+}
+
+/* Blink caret for the typewriter */
+@keyframes caret-blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+.caret {
+  display: inline-block;
+  width: 2px;
+  margin-left: 2px;
+  background: var(--color-brand);
+  animation: caret-blink 1s step-end infinite;
+}

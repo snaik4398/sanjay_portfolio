@@ -1,0 +1,43 @@
+---
+import { experiences } from '../data/constants.js';
+---
+
+<section id="experience" class="py-20">
+  <div class="mx-auto max-w-4xl px-6">
+    <h2 class="text-center text-4xl font-bold">Experience</h2>
+    <p class="mx-auto mt-3 max-w-2xl text-center text-muted">
+      My work experience as a software engineer across different companies and projects.
+    </p>
+
+    <ol class="relative mt-12 border-l border-brand/40 pl-6 sm:pl-8">
+      {experiences.map((exp) => {
+        const lines = exp.desc.split(/\r?\n/).map((l) => l.trim()).filter(Boolean);
+        return (
+          <li class="relative mb-8">
+            <span class="absolute -left-[31px] top-3 h-3.5 w-3.5 rounded-full border-2 border-brand bg-surface sm:-left-[39px]"></span>
+            <div class="rounded-xl border border-brand/40 bg-card p-5 shadow-[0_4px_24px_rgba(133,76,230,0.12)] transition-transform hover:-translate-y-1">
+              <div class="flex gap-4">
+                <img src={exp.img} alt={exp.company} loading="lazy" class="h-12 w-12 flex-shrink-0 rounded-lg bg-white/90 object-contain p-1" />
+                <div>
+                  <h3 class="font-semibold text-ink">{exp.role}</h3>
+                  <p class="text-sm text-muted">{exp.company}</p>
+                  <p class="text-xs text-muted/80">{exp.date}</p>
+                </div>
+              </div>
+              <div class="mt-4 space-y-1.5 text-sm leading-relaxed text-ink/75">
+                {lines.map((line) => <p>{line}</p>)}
+              </div>
+              {exp.skills?.length ? (
+                <div class="mt-4 flex flex-wrap gap-2">
+                  {exp.skills.map((s) => (
+                    <span class="rounded-md bg-brand/10 px-2.5 py-1 text-xs text-ink/70">{s}</span>
+                  ))}
+                </div>
+              ) : null}
+            </div>
+          </li>
+        );
+      })}
+    </ol>
+  </div>
+</section>

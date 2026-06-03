@@ -1,0 +1,56 @@
+---
+import '../styles/global.css';
+
+export interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = 'Sanjay Naik — Senior Software Engineer',
+  description = 'Sanjay Naik — Java / Spring Boot backend & full-stack developer. Portfolio of skills, experience, education and projects.',
+} = Astro.props;
+
+const site = Astro.site ?? new URL('https://sanjaydev.online');
+const canonical = new URL(Astro.url.pathname, site).href;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="/favicon.ico" />
+    <meta name="generator" content={Astro.generator} />
+
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <meta name="theme-color" content="#854CE6" />
+
+    <!-- Open Graph -->
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={new URL('/images/hero.png', site).href} />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+
+    <link rel="sitemap" href="/sitemap-index.xml" />
+
+    <!-- Google AdSense (site verification + ads) -->
+    <meta name="google-adsense-account" content="ca-pub-9253827851265014" />
+    <script
+      is:inline
+      async
+      src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9253827851265014"
+      crossorigin="anonymous"></script>
+  </head>
+  <body class="font-sans antialiased text-ink selection:bg-brand selection:text-white">
+    <slot />
+  </body>
+</html>

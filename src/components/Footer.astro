@@ -1,0 +1,19 @@
+---
+import Social from './Social.astro';
+
+const links = ['about', 'skills', 'experience', 'education', 'projects'];
+const year = new Date().getFullYear();
+---
+
+<footer class="border-t border-white/5 py-12">
+  <div class="mx-auto flex max-w-5xl flex-col items-center gap-5 px-6 text-center">
+    <h2 class="text-xl font-semibold text-brand">Sanjay Naik</h2>
+    <nav class="flex flex-wrap justify-center gap-x-8 gap-y-3 text-ink/80">
+      {links.map((l) => (
+        <a href={`#${l}`} class="capitalize transition-colors hover:text-brand">{l}</a>
+      ))}
+    </nav>
+    <Social />
+    <p class="mt-2 text-sm text-muted">&copy; {year} Sanjay Naik. All rights reserved.</p>
+  </div>
+</footer>

@@ -1,0 +1,77 @@
+---
+import { Bio } from '../data/constants.js';
+import Social from './Social.astro';
+---
+
+<section id="about" class="relative overflow-hidden">
+  <!-- gradient blobs -->
+  <div class="pointer-events-none absolute inset-0 -z-10">
+    <div class="absolute -top-24 -left-24 h-96 w-96 rounded-full bg-brand/20 blur-[120px]"></div>
+    <div class="absolute bottom-0 right-0 h-96 w-96 rounded-full bg-blue-600/15 blur-[120px]"></div>
+  </div>
+
+  <div class="mx-auto grid max-w-6xl items-center gap-12 px-6 py-20 md:min-h-[88vh] md:grid-cols-2 md:py-0">
+    <!-- Left -->
+    <div class="order-2 md:order-1">
+      <h1 class="text-4xl font-extrabold leading-tight tracking-tight sm:text-5xl">
+        Hi, I am<br />
+        <span class="bg-gradient-to-r from-brand to-brand-2 bg-clip-text text-transparent">{Bio.name}</span>
+      </h1>
+
+      <p class="mt-4 text-xl font-semibold text-ink/90 sm:text-2xl">
+        I am a <span id="typewriter" class="text-brand"></span><span class="caret">&nbsp;</span>
+      </p>
+
+      <p class="mt-6 max-w-xl leading-relaxed text-muted">{Bio.description}</p>
+
+      <div class="mt-8 flex flex-wrap items-center gap-5">
+        <a
+          href={Bio.resume}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="rounded-xl bg-gradient-to-r from-brand to-brand-2 px-7 py-3 font-semibold text-white shadow-lg shadow-brand/30 transition-transform hover:scale-105"
+        >
+          Check Resume
+        </a>
+        <Social />
+      </div>
+    </div>
+
+    <!-- Right: avatar -->
+    <div class="order-1 flex justify-center md:order-2">
+      <div class="relative">
+        <div class="absolute inset-0 -z-10 rounded-full bg-gradient-to-tr from-brand to-brand-2 blur-2xl opacity-40"></div>
+        <img
+          src="/images/hero.png"
+          alt="Sanjay Naik"
+          loading="eager"
+          class="h-60 w-60 rounded-full border-4 border-brand/40 object-cover shadow-2xl shadow-brand/20 sm:h-72 sm:w-72"
+        />
+      </div>
+    </div>
+  </div>
+</section>
+
+<script define:vars={{ roles: Bio.roles }}>
+  const el = document.getElementById('typewriter');
+  if (el && roles?.length) {
+    let r = 0,
+      c = 0,
+      deleting = false;
+    const tick = () => {
+      const word = roles[r % roles.length];
+      el.textContent = deleting ? word.slice(0, c--) : word.slice(0, c++);
+      let delay = deleting ? 45 : 90;
+      if (!deleting && c === word.length + 1) {
+        deleting = true;
+        delay = 1400;
+      } else if (deleting && c === 0) {
+        deleting = false;
+        r++;
+        delay = 300;
+      }
+      setTimeout(tick, delay);
+    };
+    tick();
+  }
+</script>

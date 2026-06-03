@@ -1,0 +1,28 @@
+---
+import { skills } from '../data/constants.js';
+---
+
+<section id="skills" class="py-20">
+  <div class="mx-auto max-w-6xl px-6">
+    <h2 class="text-center text-4xl font-bold">Skills</h2>
+    <p class="mx-auto mt-3 max-w-2xl text-center text-muted">
+      Here are some of the technologies I have been working with over the past couple of years.
+    </p>
+
+    <div class="mt-12 flex flex-wrap justify-center gap-7">
+      {skills.map((group) => (
+        <div class="w-full max-w-[500px] rounded-2xl border border-brand/40 bg-card p-6 shadow-[0_4px_24px_rgba(133,76,230,0.15)]">
+          <h3 class="mb-5 text-center text-2xl font-semibold text-muted">{group.title}</h3>
+          <div class="flex flex-wrap justify-center gap-3">
+            {group.skills.map((skill) => (
+              <span class="flex items-center gap-2 rounded-xl border border-white/15 px-4 py-2 text-sm text-ink/80 transition-colors hover:border-brand/60">
+                <img src={skill.image} alt={skill.name} loading="lazy" class="h-6 w-6 object-contain" />
+                {skill.name}
+              </span>
+            ))}
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
