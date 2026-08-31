@@ -1,0 +1,90 @@
+---
+import { CERTIFICATIONS } from '../data/portfolio';
+
+/*
+ * Collapsed by default on purpose: the section exists and is in the DOM (so it is
+ * crawlable and linkable), but it costs no vertical space until someone chooses to
+ * open it. <details> gives that for free with real keyboard support, no JS, and no
+ * aria-expanded to keep in sync by hand.
+ */
+---
+
+<details
+  class="group rounded-[var(--radius-lg)] border border-border bg-surface shadow-[var(--card-shadow)] transition-colors duration-150 hover:border-border-strong"
+>
+  <summary
+    class="flex cursor-pointer list-none items-center gap-4 p-6 text-left"
+    style="touch-action: manipulation;"
+  >
+    <span class="min-w-0 flex-1">
+      <span class="block text-lg font-semibold tracking-tight text-fg">
+        Licenses &amp; Certifications
+      </span>
+      <span class="mt-1 block text-sm text-fg-muted">
+        <span style="font-variant-numeric: tabular-nums;">{CERTIFICATIONS.length}</span
+        >&nbsp;certificates, each with a verification link. Open to view.
+      </span>
+    </span>
+    <svg
+      class="size-5 shrink-0 text-fg-muted transition-transform duration-150 group-open:rotate-180"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+      aria-hidden="true"
+    >
+      <path d="M6 9l6 6 6-6"></path>
+    </svg>
+  </summary>
+
+  <ul class="border-t border-border">
+    {
+      CERTIFICATIONS.map((cert) => (
+        <li class="border-b border-border last:border-b-0">
+          <a
+            href={cert.href}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="flex flex-wrap items-center justify-between gap-x-6 gap-y-2 px-6 py-4 transition-colors duration-150 hover:bg-surface-2"
+          >
+            <span class="min-w-0">
+              <span class="block text-sm font-medium text-fg">{cert.name}</span>
+              <span class="mt-0.5 block text-sm text-fg-muted">
+                <span translate="no">{cert.issuer}</span>
+                {/* Two entries have no date on the profile; show the issuer alone. */}
+                {cert.date && (
+                  <span style="font-variant-numeric: tabular-nums;">
+                    {' · '}
+                    {cert.date}
+                  </span>
+                )}
+              </span>
+            </span>
+            <span class="inline-flex shrink-0 items-center gap-1.5 text-sm text-accent">
+              Verify
+              <svg
+                class="size-4"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                aria-hidden="true"
+              >
+                <path d="M7 17L17 7M17 7H8M17 7v9"></path>
+              </svg>
+            </span>
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+</details>
+
+<style>
+  /* Safari still paints the default disclosure marker without this. */
+  summary::-webkit-details-marker {
+    display: none;
+  }
+</style>

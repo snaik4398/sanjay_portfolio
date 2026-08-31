@@ -1,0 +1,46 @@
+---
+/*
+ * Footer: section nav, social icons, copyright.
+ *
+ * The nav reads NAV_LINKS, the same array the header uses, so the two can never disagree
+ * about order. The year is evaluated at build time, so a rebuild is what advances it.
+ */
+import {NAV_LINKS, SITE} from '../data/portfolio';
+import SocialLinks from './SocialLinks.astro';
+
+const year = new Date().getFullYear();
+---
+
+<footer class="border-t border-border bg-surface no-print">
+  <div
+    class="mx-auto max-w-6xl gutter py-12"
+    style="padding-bottom: max(3rem, env(safe-area-inset-bottom));"
+  >
+    <div class="flex flex-col items-center gap-8">
+      <nav aria-label="Footer">
+        <ul class="flex flex-wrap justify-center gap-x-1 gap-y-1">
+          {
+            NAV_LINKS.map((link) => (
+              <li>
+                <a
+                  href={link.href}
+                  class="inline-block rounded-[var(--radius-sm)] px-3 py-1.5 text-sm text-fg-muted transition-colors duration-150 hover:bg-surface-2 hover:text-fg"
+                >
+                  {link.label}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </nav>
+
+      <SocialLinks size="sm" />
+
+      <p class="text-center text-sm text-fg-muted">
+        <span style="font-variant-numeric: tabular-nums;">&copy; {year}</span>
+        <span translate="no">{SITE.title}</span>. Built with Astro, hosted on Cloudflare
+        Pages.
+      </p>
+    </div>
+  </div>
+</footer>

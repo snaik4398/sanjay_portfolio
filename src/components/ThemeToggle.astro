@@ -1,0 +1,82 @@
+---
+// Icon-only control, so it carries an aria-label and a live-updating aria-pressed.
+---
+
+<button
+  type="button"
+  id="theme-toggle"
+  class="inline-flex size-9 items-center justify-center rounded-[var(--radius-sm)] border border-border bg-surface text-fg-muted transition-[color,background-color,border-color] duration-150 hover:border-border-strong hover:bg-surface-2 hover:text-fg"
+  aria-label="Switch to light theme"
+  style="touch-action: manipulation;"
+>
+  <svg
+    class="size-4 dark-icon"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="1.8"
+    stroke-linecap="round"
+    aria-hidden="true"
+  >
+    <circle cx="12" cy="12" r="4"></circle>
+    <path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"
+    ></path>
+  </svg>
+  <svg
+    class="size-4 light-icon"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="1.8"
+    stroke-linecap="round"
+    aria-hidden="true"
+  >
+    <path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"></path>
+  </svg>
+</button>
+
+<style>
+  /* Show the icon for the theme you would switch *to*. */
+  :global([data-theme='dark']) .dark-icon {
+    display: block;
+  }
+  :global([data-theme='dark']) .light-icon {
+    display: none;
+  }
+  :global([data-theme='light']) .dark-icon {
+    display: none;
+  }
+  :global([data-theme='light']) .light-icon {
+    display: block;
+  }
+</style>
+
+<script>
+  import {STORAGE_KEYS} from '../data/portfolio';
+
+  const button = document.getElementById('theme-toggle');
+  const meta = document.getElementById('theme-color-meta');
+
+  function label(current: string) {
+    return current === 'dark' ? 'Switch to light theme' : 'Switch to dark theme';
+  }
+
+  function sync() {
+    const current = document.documentElement.dataset.theme ?? 'dark';
+    button?.setAttribute('aria-label', label(current));
+    meta?.setAttribute('content', current === 'light' ? '#ffffff' : '#000000');
+  }
+
+  sync();
+
+  button?.addEventListener('click', () => {
+    const next = document.documentElement.dataset.theme === 'light' ? 'dark' : 'light';
+    document.documentElement.dataset.theme = next;
+    try {
+      localStorage.setItem(STORAGE_KEYS.theme, next);
+    } catch {
+      /* Private browsing: the choice just does not persist. */
+    }
+    sync();
+  });
+</script>

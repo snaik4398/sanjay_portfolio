@@ -1,0 +1,45 @@
+---
+/*
+ * The wrapper every home-page section uses: eyebrow, h2, optional standfirst, then a slot.
+ *
+ * Sections are transparent so the fixed BackgroundFX canvas shows through; the bottom border
+ * is what separates them. The eyebrow is aria-hidden because it only restates the heading.
+ */
+interface Props {
+  id: string;
+  eyebrow: string;
+  title: string;
+  standfirst?: string;
+}
+
+const { id, eyebrow, title, standfirst } = Astro.props;
+---
+
+<section
+  id={id}
+  class="border-b border-border py-20 md:py-28"
+  aria-labelledby={`${id}-heading`}
+>
+  <div class="mx-auto max-w-6xl gutter">
+    <p
+      class="mb-3 font-mono text-xs uppercase tracking-[0.08em] text-accent"
+      aria-hidden="true"
+    >
+      {eyebrow}
+    </p>
+    <h2
+      id={`${id}-heading`}
+      class="max-w-3xl text-[clamp(1.5rem,3vw,2rem)] font-semibold tracking-tight text-fg"
+    >
+      {title}
+    </h2>
+    {
+      standfirst && (
+        <p class="mt-4 max-w-2xl text-base leading-relaxed text-fg-muted">{standfirst}</p>
+      )
+    }
+    <div class="mt-12">
+      <slot />
+    </div>
+  </div>
+</section>

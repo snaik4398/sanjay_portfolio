@@ -1,0 +1,161 @@
+@import 'tailwindcss';
+
+/*
+ * Implementation of spec/frontend/design-system.md.
+ * Semantic values live on :root and [data-theme]; @theme inline re-exports them so
+ * Tailwind generates bg-bg / text-fg-muted / border-border utilities that follow the theme.
+ */
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-border: var(--border);
+  --color-border-strong: var(--border-strong);
+  --color-fg: var(--fg);
+  --color-fg-muted: var(--fg-muted);
+  --color-accent: var(--accent);
+  --color-accent-fg: var(--accent-fg);
+
+  --font-sans: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto,
+    'Helvetica Neue', Arial, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace;
+
+  --radius-sm: 6px;
+  --radius: 8px;
+  --radius-lg: 12px;
+}
+
+/* Dark is the default theme. */
+:root {
+  color-scheme: dark;
+  --bg: #000000;
+  --surface: #0a0a0a;
+  --surface-2: #141414;
+  --border: #262626;
+  --border-strong: #3f3f3f;
+  --fg: #ededed;
+  --fg-muted: #a1a1a1;
+  --accent: #a78bfa;
+  --accent-fg: #000000;
+  --card-shadow: none;
+}
+
+/* A visitor who prefers light and has never used the toggle gets light. */
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme]) {
+    color-scheme: light;
+    --bg: #ffffff;
+    --surface: #fafafa;
+    --surface-2: #f4f4f5;
+    --border: #e5e5e5;
+    --border-strong: #c7c7c7;
+    --fg: #171717;
+    --fg-muted: #525252;
+    --accent: #6d28d9;
+    --accent-fg: #ffffff;
+    --card-shadow: 0 1px 2px rgb(0 0 0 / 0.05);
+  }
+}
+
+[data-theme='light'] {
+  color-scheme: light;
+  --bg: #ffffff;
+  --surface: #fafafa;
+  --surface-2: #f4f4f5;
+  --border: #e5e5e5;
+  --border-strong: #c7c7c7;
+  --fg: #171717;
+  --fg-muted: #525252;
+  --accent: #6d28d9;
+  --accent-fg: #ffffff;
+  --card-shadow: 0 1px 2px rgb(0 0 0 / 0.05);
+}
+
+[data-theme='dark'] {
+  color-scheme: dark;
+  --bg: #000000;
+  --surface: #0a0a0a;
+  --surface-2: #141414;
+  --border: #262626;
+  --border-strong: #3f3f3f;
+  --fg: #ededed;
+  --fg-muted: #a1a1a1;
+  --accent: #a78bfa;
+  --accent-fg: #000000;
+  --card-shadow: none;
+}
+
+/*
+ * Page gutter. The layout is full-bleed, so the inline padding has to clear a notch or a
+ * rounded display corner rather than assume a rectangular viewport.
+ */
+.gutter {
+  padding-inline: max(1.25rem, env(safe-area-inset-left), env(safe-area-inset-right));
+}
+
+html {
+  /* The page colour lives on <html>, not <body>: <body> has to stay transparent
+     so the fixed BackgroundFX layer behind the content is visible. */
+  background-color: var(--bg);
+  font-family: var(--font-sans);
+  scroll-behavior: smooth;
+  -webkit-tap-highlight-color: transparent;
+  overflow-x: hidden;
+}
+
+body {
+  background-color: transparent;
+  color: var(--fg);
+  margin: 0;
+  overflow-x: hidden;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Every heading is also an anchor target; keep the sticky header off it. */
+:where(h1, h2, h3, h4, h5, h6) {
+  text-wrap: balance;
+  scroll-margin-top: 6rem;
+}
+
+:where(section[id], div[id]) {
+  scroll-margin-top: 5rem;
+}
+
+:where(p, li) {
+  text-wrap: pretty;
+}
+
+/* The single accent-coloured ring is the focus indicator everywhere. */
+:where(a, button, input, textarea, select, summary, [tabindex]):focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}
+
+::selection {
+  background-color: var(--accent);
+  color: var(--accent-fg);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+@media print {
+  .no-print {
+    display: none !important;
+  }
+}

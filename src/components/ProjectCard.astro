@@ -1,0 +1,66 @@
+---
+/*
+ * One project card in the projects grid.
+ *
+ * The whole card is clickable through a stretched link: the <a> around the project name
+ * carries an ::after that covers the card, which needs the article to be `relative`. That
+ * keeps one link per card for assistive technology instead of wrapping everything in an
+ * anchor. Stage is stated as a text label; the coloured dot beside it is decoration and is
+ * never the only signal.
+ */
+import {STAGE_DOT, STAGE_LABELS, type Project} from '../data/portfolio';
+
+interface Props {
+  project: Project;
+}
+
+const { project } = Astro.props;
+---
+
+<article
+  class="group relative flex flex-col rounded-[var(--radius-lg)] border border-border bg-surface p-6 shadow-[var(--card-shadow)] transition-colors duration-150 hover:border-border-strong focus-within:border-border-strong"
+>
+  <div class="flex items-center justify-between gap-3">
+    <p class="min-w-0 truncate font-mono text-xs text-fg-muted" translate="no">
+      {project.primary}
+    </p>
+    <!-- Stage is carried by the label; the dot is decoration, never the only signal. -->
+    <p class="flex shrink-0 items-center gap-1.5 text-xs text-fg">
+      <span
+        class="size-1.5 rounded-full"
+        style={`background-color: ${STAGE_DOT[project.stage]};`}
+        aria-hidden="true"></span>
+      {STAGE_LABELS[project.stage]}
+    </p>
+  </div>
+
+  <h3 class="mt-4 text-lg font-semibold tracking-tight text-fg">
+    <a
+      href={`/projects/${project.slug}/`}
+      class="transition-colors duration-150 after:absolute after:inset-0 after:rounded-[var(--radius-lg)] after:content-[''] group-hover:text-accent"
+    >
+      {project.name}
+    </a>
+  </h3>
+
+  <p class="mt-2 line-clamp-3 text-sm leading-relaxed text-fg-muted">{project.tagline}</p>
+
+  <p class="mt-5 line-clamp-2 font-mono text-xs text-fg-muted">{project.stageNote}</p>
+
+  <p
+    class="mt-6 inline-flex items-center gap-1.5 text-sm font-medium text-accent transition-transform duration-150"
+    aria-hidden="true"
+  >
+    Read the write-up
+    <svg
+      class="size-4 transition-transform duration-150 group-hover:translate-x-0.5"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+    >
+      <path d="M5 12h14M13 6l6 6-6 6"></path>
+    </svg>
+  </p>
+</article>

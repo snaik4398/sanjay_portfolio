@@ -1,0 +1,48 @@
+---
+/*
+ * Skill groups, one card per group, chips inside.
+ *
+ * `icon` is optional in the config: many of the resume's skills are platform concepts (RBAC,
+ * HLD/LLD, Fault Tolerance) with no logo, so those chips render text-only and get symmetric
+ * padding instead of the asymmetric padding a logo chip needs. Logos sit on a near-white
+ * chip so dark marks (GitHub, Linux) stay visible in dark mode.
+ */
+import { SKILL_GROUPS, iconUrl } from '../data/portfolio';
+---
+
+<div class="grid gap-6 md:grid-cols-2">
+  {
+    SKILL_GROUPS.map((group) => (
+      <article class="rounded-[var(--radius-lg)] border border-border bg-surface p-6 shadow-[var(--card-shadow)] transition-colors duration-150 hover:border-border-strong">
+        <h3 class="text-lg font-semibold tracking-tight text-fg">{group.title}</h3>
+        <ul class="mt-5 flex flex-wrap gap-2">
+          {group.skills.map((skill) => (
+            <li
+              class:list={[
+                'inline-flex items-center gap-2 rounded-[var(--radius-full)] border border-border bg-surface-2 py-1.5 text-sm text-fg',
+                // Logo chips need room for the icon; text-only chips would look
+                // lopsided with the asymmetric padding.
+                skill.icon ? 'pl-1.5 pr-3.5' : 'px-3.5',
+              ]}
+            >
+              {skill.icon && (
+                <img
+                  src={iconUrl(skill.icon)}
+                  alt=""
+                  width="20"
+                  height="20"
+                  loading="lazy"
+                  decoding="async"
+                  class="size-5 shrink-0 rounded-[3px] bg-white/95 p-[2px]"
+                />
+              )}
+              <span class="min-w-0" translate="no">
+                {skill.name}
+              </span>
+            </li>
+          ))}
+        </ul>
+      </article>
+    ))
+  }
+</div>

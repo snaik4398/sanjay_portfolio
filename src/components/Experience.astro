@@ -1,0 +1,58 @@
+---
+/*
+ * Experience timeline: one card per role, newest first, on a vertical rail.
+ *
+ * Bullets come from EXPERIENCE[].points as a real <ul>, and the technology chips come from
+ * EXPERIENCE[].skills, which is per-role rather than one blanket list repeated on every job.
+ */
+import {EXPERIENCE} from '../data/portfolio';
+---
+
+<ol class="relative space-y-6 border-l border-border pl-6 md:pl-10">
+  {
+    EXPERIENCE.map((role) => (
+      <li class="relative">
+        <span
+          class="absolute -left-[1.6rem] top-6 size-2.5 rounded-full border-2 border-bg bg-accent md:-left-[2.85rem]"
+          aria-hidden="true"
+        />
+        <article class="rounded-[var(--radius-lg)] border border-border bg-surface p-6 shadow-[var(--card-shadow)] transition-colors duration-150 hover:border-border-strong md:p-8">
+          <div class="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
+            <h3 class="min-w-0 text-lg font-semibold tracking-tight text-fg">
+              {role.role}
+            </h3>
+            <p
+              class="shrink-0 font-mono text-xs text-fg-muted"
+              style="font-variant-numeric: tabular-nums;"
+            >
+              {role.date}
+            </p>
+          </div>
+          <p class="mt-1 text-sm text-fg-muted">
+            <span translate="no">{role.company}</span>, {role.location}
+          </p>
+
+          <ul class="mt-5 space-y-2.5">
+            {role.points.map((point) => (
+              <li class="flex gap-3 text-sm leading-relaxed text-fg-muted">
+                <span class="mt-2 size-1 shrink-0 rounded-full bg-accent" aria-hidden="true" />
+                <span class="min-w-0">{point}</span>
+              </li>
+            ))}
+          </ul>
+
+          <ul class="mt-6 flex flex-wrap gap-1.5">
+            {role.skills.map((skill) => (
+              <li
+                class="rounded-[var(--radius-sm)] border border-border bg-surface-2 px-2.5 py-1 font-mono text-xs text-fg-muted"
+                translate="no"
+              >
+                {skill}
+              </li>
+            ))}
+          </ul>
+        </article>
+      </li>
+    ))
+  }
+</ol>

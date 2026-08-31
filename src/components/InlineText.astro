@@ -1,0 +1,26 @@
+---
+/*
+ * Renders a plain string that still uses Markdown's backtick convention, turning `foo` into
+ * a real <code> element. Used for the project write-ups, whose prose was authored with
+ * backticks around identifiers. See lib/inline.ts for the tokenizer.
+ */
+import { tokenizeInline } from '../lib/inline';
+
+interface Props {
+  text: string;
+}
+
+const tokens = tokenizeInline(Astro.props.text);
+---
+
+{
+  tokens.map((token) =>
+    token.code ? (
+      <code
+        class="rounded-[4px] border border-border bg-surface-2 px-1.5 py-0.5 font-mono text-[0.9em] text-fg"
+        translate="no">{token.text}</code>
+    ) : (
+      <Fragment>{token.text}</Fragment>
+    ),
+  )
+}

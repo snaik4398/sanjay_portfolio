@@ -1,0 +1,39 @@
+---
+/*
+ * The social icon row, used in the hero, the contact card and the footer.
+ *
+ * Driven by SOCIALS, so commenting a profile out of that array removes it from all three
+ * places at once (and from the JSON-LD sameAs, which index.astro derives from the same
+ * array). Icon-only links, so each carries an aria-label naming the destination.
+ */
+import {SOCIALS} from '../data/portfolio';
+
+interface Props {
+  size?: 'sm' | 'md';
+}
+
+const { size = 'md' } = Astro.props;
+const box = size === 'sm' ? 'size-9' : 'size-10';
+const icon = size === 'sm' ? 'size-4' : 'size-[18px]';
+---
+
+<ul class="flex items-center gap-2">
+  {
+    SOCIALS.map((social) => (
+      <li>
+        <a
+          href={social.href}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label={`${social.label} profile, opens in a new tab`}
+          class={`inline-flex ${box} items-center justify-center rounded-[var(--radius-sm)] border border-border bg-surface text-fg-muted transition-[color,background-color,border-color] duration-150 hover:border-border-strong hover:bg-surface-2 hover:text-fg`}
+          style="touch-action: manipulation;"
+        >
+          <svg class={icon} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d={social.icon} />
+          </svg>
+        </a>
+      </li>
+    ))
+  }
+</ul>

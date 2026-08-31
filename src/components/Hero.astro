@@ -1,0 +1,242 @@
+---
+/*
+ * Hero: designation, name, the rotating role line, description, location, calls to action.
+ *
+ * The role rotator is the only looping animation on the site, and it runs longer than the 5s
+ * after which the Web Interface Guidelines require a control, so it ships with a pause
+ * button. The animated span is aria-hidden and the full role list is exposed to assistive
+ * technology as static text, because a live region retyping itself would be unreadable.
+ * Under prefers-reduced-motion, and with no JavaScript, the static list is what renders.
+ */
+import {BIO} from '../data/portfolio';
+import SocialLinks from './SocialLinks.astro';
+
+const rolesLabel = BIO.roles.join(' · ');
+---
+
+<section id="about" class="relative overflow-hidden border-b border-border" aria-labelledby="about-heading">
+  <!-- Decorative gradient wash, the one thing carried over from the old React theme. -->
+  <div
+    class="pointer-events-none absolute inset-0 opacity-[0.55]"
+    style="background:
+      radial-gradient(60rem 30rem at 15% -10%, color-mix(in oklab, var(--accent) 22%, transparent), transparent 70%),
+      radial-gradient(50rem 28rem at 95% 10%, color-mix(in oklab, var(--accent) 12%, transparent), transparent 70%);"
+    aria-hidden="true"
+  >
+  </div>
+
+  <div
+    class="relative mx-auto flex max-w-6xl flex-col-reverse items-center gap-12 gutter py-20 md:flex-row md:items-center md:justify-between md:py-28"
+  >
+    <div class="w-full min-w-0 md:max-w-2xl">
+      <p
+        class="mb-4 font-mono text-xs uppercase tracking-[0.08em] text-accent"
+        aria-hidden="true"
+      >
+        {BIO.title}
+      </p>
+
+      <h1
+        id="about-heading"
+        class="text-[clamp(2.25rem,6vw,4rem)] font-semibold leading-[1.05] tracking-tight text-fg"
+      >
+        Hi, I am<br /><span translate="no">{BIO.name}</span>
+      </h1>
+
+      <!-- The full list is the accessible text; the animated span is decorative. -->
+      <p class="mt-6 flex flex-wrap items-center gap-x-2 text-lg text-fg-muted md:text-xl">
+        <span>I am a</span>
+        <span class="sr-only">{rolesLabel}</span>
+        <span id="roles-static" class="font-medium text-fg">{rolesLabel}</span>
+        <span id="roles-dynamic" class="hidden font-medium text-fg" aria-hidden="true">
+          <span id="roles-output"></span><span
+            id="roles-caret"
+            class="ml-0.5 inline-block w-[2px] translate-y-[2px] self-stretch bg-accent"
+            style="height: 1.1em;"></span>
+        </span>
+        <button
+          type="button"
+          id="roles-pause"
+          class="hidden size-7 shrink-0 items-center justify-center rounded-[var(--radius-sm)] border border-border bg-surface text-fg-muted transition-[color,background-color,border-color] duration-150 hover:border-border-strong hover:text-fg"
+          aria-label="Pause the rotating job titles"
+          aria-pressed="false"
+          style="touch-action: manipulation;"
+        >
+          <svg class="size-3.5 icon-pause" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M8 5h3v14H8zM13 5h3v14h-3z"></path>
+          </svg>
+          <svg class="size-3.5 icon-play" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M8 5l11 7-11 7z"></path>
+          </svg>
+        </button>
+      </p>
+
+      <p class="mt-6 max-w-xl text-base leading-relaxed text-fg-muted">
+        {BIO.description}
+      </p>
+
+      <p class="mt-4 flex items-center gap-2 text-sm text-fg-muted">
+        <svg
+          class="size-4 shrink-0"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.8"
+          aria-hidden="true"
+        >
+          <path d="M12 21s7-5.6 7-11a7 7 0 1 0-14 0c0 5.4 7 11 7 11Z"></path>
+          <circle cx="12" cy="10" r="2.5"></circle>
+        </svg>
+        {BIO.location}
+      </p>
+
+      <div class="mt-9 flex flex-wrap items-center gap-3">
+        <a
+          href={BIO.resume}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-flex h-11 items-center gap-2 rounded-[var(--radius)] bg-accent px-5 text-sm font-medium text-accent-fg transition-[opacity,transform] duration-150 hover:opacity-90 active:scale-[0.98]"
+          style="touch-action: manipulation;"
+        >
+          Check Resume
+          <svg
+            class="size-4"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            aria-hidden="true"
+          >
+            <path d="M7 17L17 7M17 7H8M17 7v9"></path>
+          </svg>
+        </a>
+        <a
+          href="#projects"
+          class="inline-flex h-11 items-center rounded-[var(--radius)] border border-border bg-surface px-5 text-sm font-medium text-fg transition-[background-color,border-color] duration-150 hover:border-border-strong hover:bg-surface-2"
+          style="touch-action: manipulation;"
+        >
+          View Projects
+        </a>
+        <SocialLinks />
+      </div>
+    </div>
+
+    <div class="shrink-0">
+      <img
+        src="/profile.png"
+        alt={BIO.name}
+        width="254"
+        height="324"
+        fetchpriority="high"
+        decoding="async"
+        class="w-40 rounded-[var(--radius-lg)] border border-border bg-surface object-cover md:w-64"
+      />
+    </div>
+  </div>
+</section>
+
+<style>
+  #roles-pause[aria-pressed='false'] .icon-play {
+    display: none;
+  }
+  #roles-pause[aria-pressed='true'] .icon-pause {
+    display: none;
+  }
+
+  @keyframes caret-blink {
+    0%,
+    49% {
+      opacity: 1;
+    }
+    50%,
+    100% {
+      opacity: 0;
+    }
+  }
+
+  #roles-caret {
+    animation: caret-blink 1s steps(1) infinite;
+  }
+</style>
+
+<script>
+  import {BIO} from '../data/portfolio';
+
+  const staticEl = document.getElementById('roles-static');
+  const dynamicEl = document.getElementById('roles-dynamic');
+  const outputEl = document.getElementById('roles-output');
+  const pauseButton = document.getElementById('roles-pause');
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+  // With reduced motion, or without JS, the static list is the whole feature.
+  if (staticEl && dynamicEl && outputEl && pauseButton && !reduceMotion.matches) {
+    // Re-bound as non-null locals so the narrowing survives into the closures below.
+    const staticText = staticEl;
+    const dynamicText = dynamicEl;
+    const output = outputEl;
+    const toggle = pauseButton;
+
+    staticText.classList.add('hidden');
+    dynamicText.classList.remove('hidden');
+    toggle.classList.remove('hidden');
+    toggle.classList.add('inline-flex');
+
+    const roles = [...BIO.roles];
+    const TYPE_MS = 70;
+    const DELETE_MS = 35;
+    const HOLD_MS = 1600;
+
+    let roleIndex = 0;
+    let charIndex = 0;
+    let deleting = false;
+    let paused = false;
+    let timer = 0;
+
+    function step() {
+      const role = roles[roleIndex] ?? '';
+      charIndex += deleting ? -1 : 1;
+      output.textContent = role.slice(0, charIndex);
+
+      let delay = deleting ? DELETE_MS : TYPE_MS;
+      if (!deleting && charIndex === role.length) {
+        deleting = true;
+        delay = HOLD_MS;
+      } else if (deleting && charIndex === 0) {
+        deleting = false;
+        roleIndex = (roleIndex + 1) % roles.length;
+        delay = TYPE_MS * 3;
+      }
+
+      if (!paused) timer = window.setTimeout(step, delay);
+    }
+
+    step();
+
+    toggle.addEventListener('click', () => {
+      paused = !paused;
+      toggle.setAttribute('aria-pressed', String(paused));
+      toggle.setAttribute(
+        'aria-label',
+        paused ? 'Resume the rotating job titles' : 'Pause the rotating job titles',
+      );
+      const caret = document.getElementById('roles-caret');
+      if (caret) caret.style.animationPlayState = paused ? 'paused' : 'running';
+      if (paused) {
+        window.clearTimeout(timer);
+      } else {
+        step();
+      }
+    });
+
+    // Someone turning reduced motion on mid-visit gets the static list back.
+    reduceMotion.addEventListener('change', (event) => {
+      if (!event.matches) return;
+      window.clearTimeout(timer);
+      paused = true;
+      dynamicText.classList.add('hidden');
+      toggle.classList.add('hidden');
+      staticText.classList.remove('hidden');
+    });
+  }
+</script>

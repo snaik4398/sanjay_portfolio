@@ -1,0 +1,114 @@
+---
+/*
+ * The page canvas: a fine grid, two slow accent glows, and a faint grain.
+ *
+ * Sits behind everything as one fixed layer rather than being repeated per
+ * section, which is why the sections themselves are transparent now. Purely
+ * decorative, so aria-hidden and pointer-events-none.
+ */
+---
+
+<div class="bg-fx" aria-hidden="true">
+  <div class="bg-fx__grid"></div>
+  <div class="bg-fx__glow bg-fx__glow--one"></div>
+  <div class="bg-fx__glow bg-fx__glow--two"></div>
+  <div class="bg-fx__grain"></div>
+</div>
+
+<style>
+  .bg-fx {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    overflow: hidden;
+  }
+
+  /* Grid lines, faded out towards the edges so the pattern never meets a border. */
+  .bg-fx__grid {
+    position: absolute;
+    inset: -1px;
+    background-image:
+      linear-gradient(to right, var(--border) 1px, transparent 1px),
+      linear-gradient(to bottom, var(--border) 1px, transparent 1px);
+    background-size: 64px 64px;
+    opacity: 0.5;
+    -webkit-mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, #000 20%, transparent 75%);
+    mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, #000 20%, transparent 75%);
+  }
+
+  .bg-fx__glow {
+    position: absolute;
+    border-radius: 9999px;
+    filter: blur(80px);
+    will-change: transform;
+  }
+
+  .bg-fx__glow--one {
+    top: -12rem;
+    left: -8rem;
+    width: 42rem;
+    height: 32rem;
+    background: radial-gradient(
+      circle,
+      color-mix(in oklab, var(--accent) 26%, transparent),
+      transparent 68%
+    );
+    animation: drift-one 32s ease-in-out infinite alternate;
+  }
+
+  .bg-fx__glow--two {
+    top: 24rem;
+    right: -14rem;
+    width: 38rem;
+    height: 30rem;
+    background: radial-gradient(
+      circle,
+      color-mix(in oklab, var(--accent) 16%, transparent),
+      transparent 70%
+    );
+    animation: drift-two 40s ease-in-out infinite alternate;
+  }
+
+  /* An SVG-noise data URI: no network request, no image to ship. */
+  .bg-fx__grain {
+    position: absolute;
+    inset: 0;
+    opacity: 0.035;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  /* Transform only, so both glows stay on the compositor. */
+  @keyframes drift-one {
+    from {
+      transform: translate3d(0, 0, 0) scale(1);
+    }
+    to {
+      transform: translate3d(6rem, 4rem, 0) scale(1.12);
+    }
+  }
+
+  @keyframes drift-two {
+    from {
+      transform: translate3d(0, 0, 0) scale(1.08);
+    }
+    to {
+      transform: translate3d(-5rem, -3rem, 0) scale(1);
+    }
+  }
+
+  /* Static gradients, no motion. The decoration still reads; it just holds still. */
+  @media (prefers-reduced-motion: reduce) {
+    .bg-fx__glow--one,
+    .bg-fx__glow--two {
+      animation: none;
+    }
+  }
+
+  /* The grain is the first thing that looks like a printing fault on paper. */
+  @media print {
+    .bg-fx {
+      display: none;
+    }
+  }
+</style>

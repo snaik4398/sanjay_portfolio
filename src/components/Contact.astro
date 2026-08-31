@@ -1,0 +1,69 @@
+---
+/*
+ * Contact card: email, a primary LinkedIn button, and the social icon row.
+ *
+ * Email and LinkedIn only. The phone number on the resume is deliberately not on the site
+ * (see the note at the top of data/portfolio.ts), and there is no form because the React
+ * version's EmailJS form needed a third-party account and a publishable key to mail one
+ * address.
+ */
+import { BIO } from '../data/portfolio';
+import SocialLinks from './SocialLinks.astro';
+---
+
+<div
+  class="flex flex-col items-start gap-8 rounded-[var(--radius-lg)] border border-border bg-surface p-8 shadow-[var(--card-shadow)] md:flex-row md:items-center md:justify-between md:p-10"
+>
+  <div class="min-w-0">
+    <h3 class="text-lg font-semibold tracking-tight text-fg">Find me here</h3>
+    <p class="mt-2 max-w-md text-sm leading-relaxed text-fg-muted">
+      Email or LinkedIn are the quickest ways to reach me. The résumé has the full history,
+      and the code is on GitHub.
+    </p>
+    <p class="mt-4">
+      <a
+        href={`mailto:${BIO.email}`}
+        class="inline-flex items-center gap-2 font-mono text-sm text-accent transition-colors duration-150 hover:text-fg"
+        translate="no"
+      >
+        <svg
+          class="size-4 shrink-0"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.8"
+          stroke-linecap="round"
+          aria-hidden="true"
+        >
+          <rect x="3" y="5" width="18" height="14" rx="2"></rect>
+          <path d="M3 7l9 6 9-6"></path>
+        </svg>
+        {BIO.email}
+      </a>
+    </p>
+  </div>
+
+  <div class="flex shrink-0 flex-wrap items-center gap-3">
+    <a
+      href={BIO.linkedin}
+      target="_blank"
+      rel="noopener noreferrer"
+      class="inline-flex h-11 items-center gap-2 rounded-[var(--radius)] bg-accent px-5 text-sm font-medium text-accent-fg transition-[opacity,transform] duration-150 hover:opacity-90 active:scale-[0.98]"
+      style="touch-action: manipulation;"
+    >
+      Message on LinkedIn
+      <svg
+        class="size-4"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        aria-hidden="true"
+      >
+        <path d="M7 17L17 7M17 7H8M17 7v9"></path>
+      </svg>
+    </a>
+    <SocialLinks />
+  </div>
+</div>

@@ -1,0 +1,51 @@
+---
+import { EDUCATION } from '../data/portfolio';
+---
+
+{/* One row per degree, stacked. Rows share a container so the dividers line up. */}
+<ol
+  class="divide-y divide-border overflow-hidden rounded-[var(--radius-lg)] border border-border bg-surface shadow-[var(--card-shadow)]"
+>
+  {
+    EDUCATION.map((degree) => (
+      <li class="transition-colors duration-150 hover:bg-surface-2">
+        <div class="flex flex-col gap-x-8 gap-y-3 p-6 md:flex-row md:items-center md:p-7">
+          <p
+            class="shrink-0 font-mono text-xs text-fg-muted md:w-52"
+            style="font-variant-numeric: tabular-nums;"
+          >
+            {degree.date}
+          </p>
+
+          <div class="min-w-0 flex-1">
+            <h3 class="text-base font-semibold leading-snug tracking-tight text-fg">
+              {degree.degree}
+            </h3>
+            <p class="mt-1 text-sm text-fg-muted">
+              <span translate="no">{degree.school}</span>
+              {degree.affiliation && (
+                <span class="text-fg-muted">
+                  {' · '}
+                  <span translate="no">{degree.affiliation}</span>
+                </span>
+              )}
+            </p>
+          </div>
+
+          {/* No grade while a degree is in progress; say so rather than leaving a gap. */}
+          <p class="shrink-0">
+            <span class="inline-flex items-center rounded-[var(--radius-full)] border border-border bg-surface-2 px-3 py-1.5 text-sm">
+              {degree.grade ? (
+                <span class="text-fg" style="font-variant-numeric: tabular-nums;">
+                  {degree.grade}
+                </span>
+              ) : (
+                <span class="text-fg-muted">In progress</span>
+              )}
+            </span>
+          </p>
+        </div>
+      </li>
+    ))
+  }
+</ol>

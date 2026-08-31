@@ -1,0 +1,77 @@
+---
+import {SITE} from '../data/portfolio';
+import '../styles/global.css';
+
+interface Props {
+  title: string;
+  description?: string;
+  /** Path only, e.g. "/projects/plainpaste/". Resolved against SITE.url. */
+  path?: string;
+  noindex?: boolean;
+  /** Extra JSON-LD, already stringified. */
+  schema?: string;
+}
+
+const {
+  title,
+  description = SITE.description,
+  path = '/',
+  noindex = false,
+  schema,
+} = Astro.props;
+
+const canonical = new URL(path, SITE.url).href;
+const ogImage = new URL('/profile.png', SITE.url).href;
+const fullTitle = title === SITE.title ? `${SITE.title} — ${SITE.description.split('.')[0]}` : `${title} — ${SITE.title}`;
+---
+
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>{fullTitle}</title>
+<meta name="description" content={description} />
+<meta name="keywords" content={SITE.keywords.join(', ')} />
+<meta name="author" content={SITE.title} />
+<link rel="canonical" href={canonical} />
+{noindex && <meta name="robots" content="noindex, nofollow" />}
+
+<link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+<link rel="sitemap" href="/sitemap-index.xml" />
+
+<!-- Skill logos are served from jsDelivr; open the connection during head parse. -->
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content={SITE.title} />
+<meta property="og:title" content={fullTitle} />
+<meta property="og:description" content={description} />
+<meta property="og:url" content={canonical} />
+<meta property="og:image" content={ogImage} />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={fullTitle} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={ogImage} />
+
+<!-- Kept in sync with --bg by the theme script below. -->
+<meta name="theme-color" content="#000000" id="theme-color-meta" />
+
+{schema && <script type="application/ld+json" set:html={schema} is:inline />}
+
+<script is:inline>
+  // Runs before first paint so the chosen theme never flashes the other one.
+  (function () {
+    try {
+      var stored = localStorage.getItem('portfolio:theme');
+      var theme =
+        stored === 'light' || stored === 'dark'
+          ? stored
+          : window.matchMedia('(prefers-color-scheme: light)').matches
+            ? 'light'
+            : 'dark';
+      document.documentElement.dataset.theme = theme;
+      var meta = document.getElementById('theme-color-meta');
+      if (meta) meta.setAttribute('content', theme === 'light' ? '#ffffff' : '#000000');
+    } catch (e) {
+      document.documentElement.dataset.theme = 'dark';
+    }
+  })();
+</script>
