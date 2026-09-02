@@ -15,7 +15,7 @@ import ThemeToggle from './ThemeToggle.astro';
 >
   <div class="mx-auto flex h-16 max-w-6xl items-center gap-4 gutter">
     <a
-      href="/"
+      href={import.meta.env.BASE_URL}
       class="shrink-0 font-mono text-sm font-semibold tracking-tight text-fg transition-colors duration-150 hover:text-accent"
       translate="no">{SITE.title}</a
     >
@@ -26,7 +26,7 @@ import ThemeToggle from './ThemeToggle.astro';
           NAV_LINKS.map((link) => (
             <li>
               <a
-                href={link.href}
+                href={`${import.meta.env.BASE_URL.replace(/\/$/, '')}${link.href}`}
                 class="rounded-[var(--radius-sm)] px-3 py-2 text-sm text-fg-muted transition-colors duration-150 hover:bg-surface-2 hover:text-fg"
               >
                 {link.label}
@@ -66,7 +66,7 @@ import ThemeToggle from './ThemeToggle.astro';
               NAV_LINKS.map((link) => (
                 <li>
                   <a
-                    href={link.href}
+                    href={`${import.meta.env.BASE_URL.replace(/\/$/, '')}${link.href}`}
                     class="block rounded-[var(--radius-sm)] px-3 py-2 text-sm text-fg-muted transition-colors duration-150 hover:bg-surface-2 hover:text-fg"
                   >
                     {link.label}

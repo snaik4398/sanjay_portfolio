@@ -36,7 +36,7 @@ const { project } = Astro.props;
 
   <h3 class="mt-4 text-lg font-semibold tracking-tight text-fg">
     <a
-      href={`/projects/${project.slug}/`}
+      href={`${import.meta.env.BASE_URL}projects/${project.slug}/`}
       class="transition-colors duration-150 after:absolute after:inset-0 after:rounded-[var(--radius-lg)] after:content-[''] group-hover:text-accent"
     >
       {project.name}

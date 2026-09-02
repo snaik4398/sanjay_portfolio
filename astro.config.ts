@@ -8,6 +8,9 @@ import { SITE } from './src/data/portfolio';
 // https://astro.build/config
 export default defineConfig({
   site: SITE.url,
+  // GitHub Pages serves this repo as a project site at /sanjay_portfolio/, not the domain
+  // root, so every internal href/src has to be prefixed with import.meta.env.BASE_URL.
+  base: '/sanjay_portfolio/',
   output: 'static',
   integrations: [sitemap()],
   vite: { plugins: [tailwindcss()] },

@@ -22,7 +22,7 @@ const schema = JSON.stringify({
   '@type': 'Person',
   name: BIO.name,
   url: SITE.url,
-  image: new URL('/profile.png', SITE.url).href,
+  image: new URL('profile.png', SITE.url).href,
   jobTitle: BIO.title,
   description: BIO.description,
   email: `mailto:${BIO.email}`,
@@ -48,7 +48,7 @@ const schema = JSON.stringify({
 });
 ---
 
-<BaseLayout title={SITE.title} path="/" schema={schema}>
+<BaseLayout title={SITE.title} path="" schema={schema}>
   <Hero />
 
   <Section

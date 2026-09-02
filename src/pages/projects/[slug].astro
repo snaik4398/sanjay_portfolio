@@ -24,7 +24,7 @@ interface Props {
 }
 
 const { project } = Astro.props;
-const path = `/projects/${project.slug}/`;
+const path = `projects/${project.slug}/`;
 const links = realLinks(project);
 
 const schema = JSON.stringify({
@@ -42,7 +42,7 @@ const schema = JSON.stringify({
   <article class="mx-auto max-w-3xl gutter py-16 md:py-24">
     <nav aria-label="Breadcrumb" class="mb-10">
       <a
-        href="/#projects"
+        href={`${import.meta.env.BASE_URL}#projects`}
         class="inline-flex items-center gap-2 text-sm text-fg-muted transition-colors duration-150 hover:text-fg"
       >
         <svg

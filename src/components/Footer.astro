@@ -23,7 +23,7 @@ const year = new Date().getFullYear();
             NAV_LINKS.map((link) => (
               <li>
                 <a
-                  href={link.href}
+                  href={`${import.meta.env.BASE_URL.replace(/\/$/, '')}${link.href}`}
                   class="inline-block rounded-[var(--radius-sm)] px-3 py-1.5 text-sm text-fg-muted transition-colors duration-150 hover:bg-surface-2 hover:text-fg"
                 >
                   {link.label}
@@ -38,7 +38,7 @@ const year = new Date().getFullYear();
 
       <p class="text-center text-sm text-fg-muted">
         <span style="font-variant-numeric: tabular-nums;">&copy; {year}</span>
-        <span translate="no">{SITE.title}</span>. Built with Astro, hosted on Cloudflare
+        <span translate="no">{SITE.title}</span>. Built with Astro, hosted on GitHub
         Pages.
       </p>
     </div>

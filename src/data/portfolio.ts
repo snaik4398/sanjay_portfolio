@@ -16,8 +16,13 @@
 /* ---------------------------------------------------------------- 1. SITE  */
 
 export const SITE = {
-  /** Set this before the first deploy. astro.config.ts reads it from here. */
-  url: 'https://example.com',
+  /**
+   * Set this before the first deploy. astro.config.ts reads it from here.
+   * Trailing slash matters: it is combined with root-relative `path` props in BaseHead
+   * via `new URL(path, SITE.url)`, and this is a GitHub Pages *project* site served under
+   * /sanjay_portfolio/, not the domain root, so the subpath has to live in this value.
+   */
+  url: 'https://snaik4398.github.io/sanjay_portfolio/',
   title: 'Sanjay Naik',
   tagline: 'Senior Backend Engineer',
   description:

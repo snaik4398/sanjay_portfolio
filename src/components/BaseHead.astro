@@ -5,7 +5,11 @@ import '../styles/global.css';
 interface Props {
   title: string;
   description?: string;
-  /** Path only, e.g. "/projects/plainpaste/". Resolved against SITE.url. */
+  /**
+   * Path only, relative and with no leading slash, e.g. "projects/plainpaste/". Resolved
+   * against SITE.url, which already carries the /sanjay_portfolio/ GitHub Pages subpath —
+   * a leading slash here would resolve against the domain root instead and drop it.
+   */
   path?: string;
   noindex?: boolean;
   /** Extra JSON-LD, already stringified. */
@@ -15,13 +19,13 @@ interface Props {
 const {
   title,
   description = SITE.description,
-  path = '/',
+  path = '',
   noindex = false,
   schema,
 } = Astro.props;
 
 const canonical = new URL(path, SITE.url).href;
-const ogImage = new URL('/profile.png', SITE.url).href;
+const ogImage = new URL('profile.png', SITE.url).href;
 const fullTitle = title === SITE.title ? `${SITE.title} — ${SITE.description.split('.')[0]}` : `${title} — ${SITE.title}`;
 ---
 
@@ -34,8 +38,8 @@ const fullTitle = title === SITE.title ? `${SITE.title} — ${SITE.description.s
 <link rel="canonical" href={canonical} />
 {noindex && <meta name="robots" content="noindex, nofollow" />}
 
-<link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-<link rel="sitemap" href="/sitemap-index.xml" />
+<link rel="icon" href={`${import.meta.env.BASE_URL}favicon.svg`} type="image/svg+xml" />
+<link rel="sitemap" href={`${import.meta.env.BASE_URL}sitemap-index.xml`} />
 
 <!-- Skill logos are served from jsDelivr; open the connection during head parse. -->
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
