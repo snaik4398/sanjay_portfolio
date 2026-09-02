@@ -15,14 +15,24 @@
 
 /* ---------------------------------------------------------------- 1. SITE  */
 
+/**
+ * This one branch is built by two hosts with two different URL shapes: Cloudflare Pages
+ * serves the custom domain at the root, GitHub Pages serves this repo as a project site
+ * under /sanjay_portfolio/. Cloudflare Pages sets CF_PAGES=1 in the build environment
+ * automatically, so that one variable is enough to pick the right shape for both SITE.url
+ * here and `base` in astro.config.ts without a second config file or a manual toggle.
+ */
+export const IS_CLOUDFLARE = process.env.CF_PAGES === '1';
+
 export const SITE = {
   /**
-   * Set this before the first deploy. astro.config.ts reads it from here.
-   * Trailing slash matters: it is combined with root-relative `path` props in BaseHead
-   * via `new URL(path, SITE.url)`, and this is a GitHub Pages *project* site served under
-   * /sanjay_portfolio/, not the domain root, so the subpath has to live in this value.
+   * Set before the first deploy. astro.config.ts reads it from here.
+   * Trailing slash matters: it is combined with root-relative `path` props in BaseHead via
+   * `new URL(path, SITE.url)`. On GitHub Pages that combination has to include the
+   * /sanjay_portfolio/ subpath, or the leading slash in `path` would resolve against the
+   * domain root and drop it.
    */
-  url: 'https://snaik4398.github.io/sanjay_portfolio/',
+  url: IS_CLOUDFLARE ? 'https://sanjaydev.online/' : 'https://snaik4398.github.io/sanjay_portfolio/',
   title: 'Sanjay Naik',
   tagline: 'Senior Backend Engineer',
   description:

@@ -5,7 +5,7 @@
  * The nav reads NAV_LINKS, the same array the header uses, so the two can never disagree
  * about order. The year is evaluated at build time, so a rebuild is what advances it.
  */
-import {NAV_LINKS, SITE} from '../data/portfolio';
+import {IS_CLOUDFLARE, NAV_LINKS, SITE} from '../data/portfolio';
 import SocialLinks from './SocialLinks.astro';
 
 const year = new Date().getFullYear();
@@ -38,8 +38,8 @@ const year = new Date().getFullYear();
 
       <p class="text-center text-sm text-fg-muted">
         <span style="font-variant-numeric: tabular-nums;">&copy; {year}</span>
-        <span translate="no">{SITE.title}</span>. Built with Astro, hosted on GitHub
-        Pages.
+        <span translate="no">{SITE.title}</span>. Built with Astro, hosted on{' '}
+        {IS_CLOUDFLARE ? 'Cloudflare Pages' : 'GitHub Pages'}.
       </p>
     </div>
   </div>
